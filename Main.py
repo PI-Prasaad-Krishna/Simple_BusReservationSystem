@@ -7,7 +7,7 @@ def db_connection():
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="NETHERrex#2097",  # Replace with your MySQL password
+        password="psswd",  # Replace with your MySQL password
         database="BusReservation"
     )
 
