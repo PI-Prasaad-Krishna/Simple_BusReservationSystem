@@ -3,6 +3,7 @@
 This is a Python + MySQL-based Bus Reservation System developed as a mini project. The system allows users to book bus tickets with a graphical interface, select specific seats, and view available seats in real-time.
 
 ✅ Key Features:
+
 User Authentication: Secure login and registration with gender identification.
 
 Graphical Seat Selection: 2x2 seat layout with a central aisle, showing available, booked, and female-reserved seats.
