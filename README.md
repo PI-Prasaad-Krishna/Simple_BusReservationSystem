@@ -15,11 +15,10 @@ Multiple Ticket Booking: Users can select and book multiple seats in a single tr
 MySQL Integration: Robust database for storing user data, bookings, and seat availability.
 
 🛠️ Technologies Used:
+
 Python (Tkinter for GUI)
 
 MySQL (Backend database)
-
-bcrypt (for secure password hashing)
 
 SQL connector (mysql-connector-python)
 
