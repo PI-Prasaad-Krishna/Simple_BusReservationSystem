@@ -24,6 +24,7 @@ bcrypt (for secure password hashing)
 SQL connector (mysql-connector-python)
 
 📌 Future Scope:
+
 Admin panel for bus and route management
 
 Online payment integration
