@@ -7,7 +7,7 @@ def db_connection():
     return mysql.connector.connect(
         host="localhost",
         user="root",
-        password="NETHERrex#2097",  # Replace with your MySQL password
+        password="psswd",  # Replace with your MySQL password
         database="BusReservation"
     )
 
@@ -215,55 +215,32 @@ def refresh_bus_list(bus_listbox, buses):
     # Update the buses variable in the parent function's scope
     buses[:] = updated_buses  # Update the original list in-place
 
-# Function to get adjacent seat numbers based on seat layout
+# Function to get adjacent seat numbers based on seat layout - CORRECTED VERSION
 def get_adjacent_seats(seat_number, total_seats):
     seat_num = int(seat_number)
     adjacent_seats = []
     
-    # Check if seat is on the left side or right side
-    # Seats 1-20 on left side, 21-40 on right side (for a 40-seat bus)
-    is_left_side = (seat_num <= total_seats // 2)
+    # Bus layout: 2 seats on each side of aisle
+    # Left side: 1,2,5,6,...
+    # Right side: 3,4,7,8,...
     
-    # Determine row and position
-    if is_left_side:
-        row = (seat_num - 1) // 2
-        pos = (seat_num - 1) % 2
-        
-        # Same row, other seat on left side
-        if pos == 0:  # Left seat in pair
-            adjacent_seats.append(str(seat_num + 1))  # Right seat in same pair
-        else:  # Right seat in pair
-            adjacent_seats.append(str(seat_num - 1))  # Left seat in same pair
-            
-        # Seat across the aisle (if it exists)
-        across_aisle = (total_seats // 2) + (row * 2) + 1
-        adjacent_seats.append(str(across_aisle))
-        
-    else:  # Right side
-        adjusted_seat = seat_num - (total_seats // 2)
-        row = (adjusted_seat - 1) // 2
-        pos = (adjusted_seat - 1) % 2
-        
-        # Same row, other seat on right side
-        if pos == 0:  # Left seat in pair
-            adjacent_seats.append(str(seat_num + 1))  # Right seat in same pair
-        else:  # Right seat in pair
-            adjacent_seats.append(str(seat_num - 1))  # Left seat in same pair
-            
-        # Seat across the aisle (if it exists)
-        across_aisle = (row * 2) + 2
-        adjacent_seats.append(str(across_aisle))
+    # Calculate row and position
+    row = (seat_num - 1) // 4  # Each row has 4 seats
+    position = (seat_num - 1) % 4  # Position within the row (0,1,2,3)
     
-    # Check seats in front and behind (if they exist)
-    front_row_same_pos = seat_num - 2
-    if front_row_same_pos > 0 and ((is_left_side and front_row_same_pos <= total_seats // 2) or 
-                                  (not is_left_side and front_row_same_pos > total_seats // 2)):
-        adjacent_seats.append(str(front_row_same_pos))
-        
-    back_row_same_pos = seat_num + 2
-    if back_row_same_pos <= total_seats and ((is_left_side and back_row_same_pos <= total_seats // 2) or 
-                                           (not is_left_side and back_row_same_pos > total_seats // 2)):
-        adjacent_seats.append(str(back_row_same_pos))
+    # Same row, adjacent seat (if any)
+    if position == 0:  # Left window
+        adjacent_seats.append(str(seat_num + 1))  # Left aisle
+    elif position == 1:  # Left aisle
+        adjacent_seats.append(str(seat_num - 1))  # Left window
+        if seat_num + 1 <= total_seats and (seat_num + 1) % 4 == 3:
+            adjacent_seats.append(str(seat_num + 1))  # Right aisle (across aisle)
+    elif position == 2:  # Right aisle
+        adjacent_seats.append(str(seat_num + 1))  # Right window
+        if seat_num - 1 > 0 and (seat_num - 1) % 4 == 1:
+            adjacent_seats.append(str(seat_num - 1))  # Left aisle (across aisle)
+    elif position == 3:  # Right window
+        adjacent_seats.append(str(seat_num - 1))  # Right aisle
     
     return adjacent_seats
 
